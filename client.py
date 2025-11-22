@@ -26,9 +26,8 @@ if __name__ == '__main__':
 
     hostname = input("Enter server hostname/IP: ")
     port = int(input("Enter server port: "))
-
+# Add gethostbyname to resolve hostname to IP
     host = socket.gethostbyname(hostname)
-
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
