@@ -2,21 +2,18 @@ import socket
 import os
 
 def send_text(sock, text):
-    # send(): Send data over the connection
     sock.send((text + "\n").encode())
 
 def send_file(sock, filename):
     with open(filename, "rb") as f:
         chunk = f.read(1024)
         while chunk:
-            # send(): Send file chunks
             sock.send(chunk)
             chunk = f.read(1024)
 
 def recv_file(sock, filename):
     with open(filename, "wb") as f:
         while True:
-            # recv(): Read data from the connection
             chunk = sock.recv(1024)
             if not chunk:
                 break
@@ -26,13 +23,11 @@ if __name__ == '__main__':
 
     hostname = input("Enter server hostname/IP: ")
     port = int(input("Enter server port: "))
-# Add gethostbyname to resolve hostname to IP
+
     host = socket.gethostbyname(hostname)
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
     sock.connect((host, port))
 
     while True:
@@ -40,12 +35,33 @@ if __name__ == '__main__':
         print("1. Upload file")
         print("2. Download file")
         print("3. Send message")
-        print("4. Exit")
+        print("4. Add file on server")
+        print("5. Exit")
 
         choice = input("Choose option: ")
 
-        # 1. FILE UPLOAD
-        if choice == "1":
+    
+        if choice == "4":
+            filename = input("Enter new file name: ")
+            data = input("Enter file content: ")
+
+            send_text(sock, "addfile")
+
+            send_text(sock, filename)
+
+            response = sock.recv(1024).decode().strip()
+            print("Server:", response)
+
+            if response != "file recv":
+                print("Server error. Stopping.")
+                continue
+
+            sock.send(data.encode())
+
+            response2 = sock.recv(1024).decode().strip()
+            print("Server:", response2)
+
+        elif choice == "1":
             filename = input("Enter filename: ")
 
             if not os.path.exists(filename):
@@ -56,15 +72,10 @@ if __name__ == '__main__':
             send_text(sock, filename)
             send_file(sock, filename)
 
-            # Shutdown write-end so server knows file is done
-            sock.shutdown(socket.SHUT_WR)
-
             response = sock.recv(1024).decode().strip()
             print("Server:", response)
 
-            break  # reconnect after upload
 
-        # 2. FILE DOWNLOAD
         elif choice == "2":
             filename = input("Enter filename to download: ")
 
@@ -79,7 +90,7 @@ if __name__ == '__main__':
             else:
                 print("Server: File not found.")
 
-        # 3. SEND MESSAGE
+    
         elif choice == "3":
             msg = input("Enter message: ")
             send_text(sock, "MESSAGE")
@@ -88,8 +99,7 @@ if __name__ == '__main__':
             response = sock.recv(1024).decode().strip()
             print("Server says:", response)
 
-        # EXIT
-        elif choice == "4":
+        elif choice == "5":
             break
 
         else:
