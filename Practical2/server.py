@@ -10,9 +10,6 @@ import base64
 SERVER_DIR = "server_files"
 os.makedirs(SERVER_DIR, exist_ok=True)
 
-# --------------------------
-#  SERVER FUNCTIONS
-# --------------------------
 
 def list_files():
     return os.listdir(SERVER_DIR)
@@ -49,9 +46,6 @@ def send_message(msg):
     print(f"[Server] Client says: {msg}")
     return f"Server received: {msg}"
 
-# --------------------------
-#  XML-RPC SERVER SETUP
-# --------------------------
 
 class RequestHandler(SimpleXMLRPCRequestHandler):
     rpc_paths = ('/RPC2',)
@@ -65,5 +59,5 @@ server.register_function(download_file, 'download_file')
 server.register_function(add_file, 'add_file')
 server.register_function(send_message, 'send_message')
 
-print("[Server] XML-RPC Server running on port 8000...")
+print("[Server] XML-RPC Server running on port 8000")
 server.serve_forever()
