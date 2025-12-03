@@ -38,9 +38,7 @@ def send_message_client():
     response = rpc.send_message(msg)
     print("Server:", response)
 
-# --------------------------
-# MENU LOOP
-# --------------------------
+
 while True:
     print("\n=== XML-RPC File Transfer Client ===")
     print("1. Upload file")
