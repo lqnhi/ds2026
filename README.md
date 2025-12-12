@@ -11,4 +11,4 @@ Student Info
 
 * Student Name: Luong Quynh Nhi
 * Student ID: 23BI14356
-* Student Group ID: 22BA13102
+* Student Group ID: Group 17 - 22BA13102
