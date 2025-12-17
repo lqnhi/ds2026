@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
     } else {
         /* Interactive mode */
         int n = 0;
-        printf("===== LONGEST PATH SYSTEM =====\n");
+        printf("LONGEST PATH SYSTEM\n");
         printf("Enter number of input files: ");
         if (scanf("%d", &n) != 1) {
             fprintf(stderr, "Invalid number provided.\n");
@@ -109,7 +109,7 @@ int main(int argc, char **argv) {
     if (maxPathsCount == 0) {
         printf("No paths found.\n");
     } else {
-        printf("\n===== LONGEST PATH(S) =====\n");
+        printf("\nLONGEST PATH(S)\n");
         for (size_t i = 0; i < maxPathsCount; i++) {
             printf("%s\n", maxPaths[i]);
         }
